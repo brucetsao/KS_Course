@@ -5,7 +5,12 @@ void setup() {
  }
 
 void loop() {
-    if (digitalRead(7) != HIGH)
+    if (digitalRead(7) == HIGH)
+        {
+            Serial.println("Button Pressed");
+            digitalWrite(13,HIGH) ;
+        }
+        else
         {
             Serial.println("Button Released");
             digitalWrite(13,LOW) ;
