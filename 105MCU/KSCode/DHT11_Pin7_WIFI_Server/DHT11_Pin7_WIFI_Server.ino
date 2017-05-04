@@ -1,6 +1,5 @@
 #include <WiFi.h>
-         // your network key Index number (needed only for WEP)
-
+    // your network key Index number (needed only for WEP)
 //-------------- dht use
 #include "DHT.h"
 #define DHTPIN 7     // what digital pin we're connected to
