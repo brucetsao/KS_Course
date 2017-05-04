@@ -11,7 +11,7 @@ void setup() {
 
   // 設定藍牙模組的連線速率
   // 如果是HC-05，請改成9600
-  BT.begin(19200);
+  BT.begin(9600);
 }
 
 void loop() {
