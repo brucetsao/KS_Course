@@ -1,7 +1,7 @@
 #include <String.h>
 //-------------- dht use
 #include "DHT.h"
-#define DHTPIN 7     // what digital pin we're connected to
+#define DHTPIN 8     // what digital pin we're connected to
 
 
 #define DHTTYPE DHT11   // DHT 11
@@ -12,7 +12,7 @@
 
 #include <WiFi.h>
 
-char ssid[] = "BruceiPhone";      // your network SSID (name)
+char ssid[] = "BruceSonyC5";      // your network SSID (name)
 char pass[] = "12345678";     // your network password
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
@@ -24,7 +24,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 //IPAddress server(64,233,189,94);  // numeric IP for Google (no DNS)
 char server[] = "184.106.153.149";    // name address for Google (using DNS)
-String writeAPIKey = "7WBZG2NZMLPMANJY";    // Write API Key for a ThingSpeak Channel
+String writeAPIKey = "4I2190QE5X7KM714";    // Write API Key for a ThingSpeak Channel
 const int updateInterval = 30000;        // Time interval in milliseconds to update ThingSpeak   
 // Variable Setup
 long lastConnectionTime = 0; 
@@ -105,11 +105,11 @@ void loop()
   if(!client.connected() && (millis() - lastConnectionTime > updateInterval))
   {
     Serial.println("Now Update ThingSpeak ");
-    updateThingSpeak("field1="+String(t)+"&field2="+String(f)+"&field3="+String(h));
+    updateThingSpeak("field1="+String(h)+"&field2="+String(t));
   }
   
   lastConnected = client.connected();
-  delay(60000);
+  delay(20000);
 } // END Loop
 
 
