@@ -1,7 +1,8 @@
 #include <WiFi.h>
-
-char ssid[] = "PM25";      // your network SSID (name)
-char pass[] = "qq12345678";     // your network password
+#include <String.h>
+uint8_t MacData[6];
+char ssid[] = "BruceiPhone";      // your network SSID (name)
+char pass[] = "12345678";     // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 int status = WL_IDLE_STATUS;
 char server[] = "120.114.138.88";    // name address for Google (using DNS)
@@ -9,7 +10,7 @@ int serverPort = 80 ;
 //-------------- dht use
 #include "DHT.h"
 #define DHTPIN 7     // what digital pin we're connected to
-
+String MacAddress ;
 
 #define DHTTYPE DHT11   // DHT 11
 //#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
@@ -26,6 +27,8 @@ void setup()   /*----( SETUP: RUNS ONCE )----*/
     Serial.begin(9600);
   Serial.println("DHTxx test!");
     dht.begin();
+    MacAddress = GetWifiMac() ;
+    ShowMac() ;
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
     Serial.println("WiFi shield not present");
@@ -73,7 +76,7 @@ void loop()
   Serial.print(f);
   Serial.print(" *F\t\n");
 
-  connectstr = "?field0=field1=" + String(t)+"&field2="+ String(f)+"&field3="+ String(h);
+  connectstr = "?field0="+MacAddress+"&field1=" + String(t)+"&field2="+ String(f)+"&field3="+ String(h);
      Serial.println(connectstr) ;
          if (client.connect(server, serverPort)) {
              Serial.print("Make a HTTP request ... ");
@@ -89,7 +92,7 @@ void loop()
     client.stop();  // DISCONNECT FROM THE SERVER
   }
 
-  delay(3000); // WAIT FIVE MINUTES BEFORE SENDING AGAIN
+  delay(10000); // WAIT FIVE MINUTES BEFORE SENDING AGAIN
 
 } // END Loop
 
@@ -109,4 +112,69 @@ void printWifiStatus() {
   Serial.print(rssi);
   Serial.println(" dBm");
 }
+
+
+void ShowMac()
+{
+  
+     Serial.print("MAC:");
+     Serial.print(MacAddress);
+     Serial.print("\n");
+
+}
+
+
+
+
+String GetWifiMac()
+{
+   String tt ;
+    String t1,t2,t3,t4,t5,t6 ;
+    WiFi.status();    //this method must be used for get MAC
+  WiFi.macAddress(MacData);
+  
+  Serial.print("Mac:");
+   Serial.print(MacData[0],HEX) ;
+   Serial.print("/");
+   Serial.print(MacData[1],HEX) ;
+   Serial.print("/");
+   Serial.print(MacData[2],HEX) ;
+   Serial.print("/");
+   Serial.print(MacData[3],HEX) ;
+   Serial.print("/");
+   Serial.print(MacData[4],HEX) ;
+   Serial.print("/");
+   Serial.print(MacData[5],HEX) ;
+   Serial.print("~");
+   
+   t1 = print2HEX((int)MacData[0]);
+   t2 = print2HEX((int)MacData[1]);
+   t3 = print2HEX((int)MacData[2]);
+   t4 = print2HEX((int)MacData[3]);
+   t5 = print2HEX((int)MacData[4]);
+   t6 = print2HEX((int)MacData[5]);
+   tt = String(t1+t2+t3+t4+t5+t6)  ;
+   tt.toUpperCase();    // transform to Upper Case
+
+Serial.print(tt);
+Serial.print("\n");
+  
+  return tt ;
+}
+String  print2HEX(int number) {
+  String ttt ;
+  if (number >= 0 && number < 16)
+  {
+    ttt = String("0") + String(number,HEX);
+  }
+  else
+  {
+      ttt = String(number,HEX);
+  }
+  return ttt ;
+}
+
+
+
+
 

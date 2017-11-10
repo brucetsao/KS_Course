@@ -58,7 +58,9 @@ String GetWifiMac()
    t4 = print2HEX((int)MacData[3]);
    t5 = print2HEX((int)MacData[4]);
    t6 = print2HEX((int)MacData[5]);
- tt = (t1+t2+t3+t4+t5+t6) ;
+   tt = String(t1+t2+t3+t4+t5+t6)  ;
+   tt.toUpperCase();    // transform to Upper Case
+
 Serial.print(tt);
 Serial.print("\n");
   
